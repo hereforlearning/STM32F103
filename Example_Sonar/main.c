@@ -71,6 +71,12 @@ void SetSysClockTo72(void)
 }
 
 void sonar_init() {
+	
+		/* Set variables used */
+	GPIO_InitTypeDef GPIO_InitStruct;
+	EXTI_InitTypeDef EXTI_InitStruct;
+	NVIC_InitTypeDef NVIC_InitStruct;
+	
 	GPIO_InitTypeDef gpio_cfg;
 	GPIO_StructInit(&gpio_cfg);
 
@@ -93,10 +99,8 @@ void sonar_init() {
 
 	//EXTI
 
-	/* Set variables used */
-	GPIO_InitTypeDef GPIO_InitStruct;
-	EXTI_InitTypeDef EXTI_InitStruct;
-	NVIC_InitTypeDef NVIC_InitStruct;
+
+
 
 	/* Enable clock for AFIO */
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
@@ -167,7 +171,7 @@ unsigned int sonar_get() {
 	// 16 - Timer Prescaler
 	// Result = mm
 	Sonar = (354/2) * (unsigned long)SonarValue / (72000 / 72);
-	if (Sonar > 4000) Sonar = 4000;
+	if (Sonar > 40000) Sonar = 40000;
 	if (Sonar < 20) Sonar = 20;
 
 	return (unsigned int)Sonar;

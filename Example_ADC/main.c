@@ -5,7 +5,7 @@
 #include "stm32f10x_adc.h"
 #include "stdio.h"
 #include "misc.h"
-
+#include "string.h"
 void usart_init(void)
 {
 	/* Enable USART1 and GPIOA clock */
@@ -193,11 +193,13 @@ int main(void)
 	// start conversion
 	ADC_Cmd (ADC1,ENABLE);	//enable ADC1
 	ADC_SoftwareStartConvCmd(ADC1, ENABLE);	// start conversion (will be endless as we are in continuous mode)
-
+	unsigned long i=0;
 	while (1)
 	{
+		i=10000000;
+		while(i--);
 		adc_value = ADC_GetConversionValue(ADC1);
 		sprintf(buffer, "%d\r\n", adc_value);
-		USARTSend(buffer, sizeof(buffer));
+		USARTSend(buffer, strlen(buffer));
 	}
 }
